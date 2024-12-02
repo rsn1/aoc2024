@@ -1,5 +1,8 @@
 with open("input.txt") as f:
-    data = [x.split(" ") for x in f.read().splitlines()]
+    data = [x.split(" ") for x in f.read().strip().split("\n")]
+
+
+print(data)
 
 list1 = []
 list2 = []
