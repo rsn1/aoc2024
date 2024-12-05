@@ -1,8 +1,11 @@
 from collections import defaultdict
+from functools import cmp_to_key
 
 def intersection(lst1, lst2):
     lst3 = [value for value in lst1 if value in lst2]
     return lst3
+
+
 
 with open("input.txt") as f:
     data = f.read().splitlines()
@@ -27,6 +30,7 @@ print(orddict)
 
 #keep stack, pop whenever element is encountered
 
+
 total = 0
 total_wrong = 0
 for round in updates:
@@ -50,35 +54,16 @@ for round in updates:
         total += int(round[mid])
     else:
         #part 2
-        print(f"round {round}")
-        print(f"condition {condition}")
-        #not correctly ordered
-        #get key from value
-        for wrongly_placed in condition:
-            correct_list = []
-            all_found = False
-            to_place_after = []
-            for key in orddict:
-                if wrongly_placed in orddict[key]:
-                    to_place_after.append(key)
-            to_place_after = intersection(to_place_after,round)
-            print(f"to_place_after  {to_place_after}")            
-
-            for idx,x in enumerate(round):
-                if x != wrongly_placed:
-                    correct_list.append(x)
-                if x in to_place_after:
-                    to_place_after.remove(x)
-
-                if not to_place_after and not all_found:
-                    correct_list.append(wrongly_placed)
-                    all_found = True
-
-                    continue
-            round = correct_list
-        print(f"round after swap: {correct_list}")
-        mid = int((len(round)-1)/2)
-        total_wrong += int(round[mid])
+        def mycmp(a,b):
+            if (a in orddict[b]):
+                return 1
+            else:
+                return -1
+       
+        d = sorted(round,key=cmp_to_key(mycmp))
+        print(d)
+        mid = int((len(d)-1)/2)
+        total_wrong += int(d[mid])
 
 print(total)
 print(total_wrong)
