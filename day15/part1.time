@@ -1,0 +1,9 @@
+python
+real	0m0.052s
+user	0m0.018s
+sys	0m0.000s
+
+pypy
+real	0m0.057s
+user	0m0.014s
+sys	0m0.007s
