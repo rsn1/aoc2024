@@ -1,4 +1,4 @@
-with open("input.txt") as f:
+with open("input2.txt") as f:
     grid = [list(x) for x in f.read().splitlines()]
 
 n_rows = len(grid)
@@ -19,7 +19,7 @@ def adj4(i,j):
 
 starti, startj = find_tile('S')
 endi, endj = find_tile('E')
-print(endi,endj)
+#print(endi,endj)
 
 def pop_min(Q):
     minimum = min(Q,key=lambda x: x[0])
@@ -43,12 +43,27 @@ while len(Q) != 0:
         new_node = (ni,nj,(di,dj)) 
         if new_node not in dist or alt < dist[new_node]:
             dist[new_node] = alt
-            prev[new_node] = (ci,cj,dir)
+            prev[new_node] = [(ci,cj,dir)]
             Q.append((alt,new_node))
+        elif alt == dist[new_node]:
+            prev[new_node].append((ci,cj,dir))
+            
 
-k = dist.keys()
-print(k)
-for x in k:
-    i,j,dir = x
+#k = dist.keys()
+p = prev.keys()
+for pr in p:
+    i,j,dir = pr
+    #print(i,j)
     if i == endi and j == endj:
-        print(i,j,dir)
+        print("prev:", prev[pr])
+        print("dist:",dist[pr])
+
+
+#seen = set()
+#back = prev[]
+#while back != None:
+
+#print(k)
+#for x in k:
+#    if x[0] == endi and x[1] == endj:
+#        print(dist[x])
