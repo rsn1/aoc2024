@@ -1,4 +1,4 @@
-with open("input2.txt") as f:
+with open("input.txt") as f:
     grid = [list(x) for x in f.read().splitlines()]
 
 n_rows = len(grid)
@@ -19,7 +19,6 @@ def adj4(i,j):
 
 starti, startj = find_tile('S')
 endi, endj = find_tile('E')
-#print(endi,endj)
 
 def pop_min(Q):
     minimum = min(Q,key=lambda x: x[0])
@@ -47,23 +46,30 @@ while len(Q) != 0:
             Q.append((alt,new_node))
         elif alt == dist[new_node]:
             prev[new_node].append((ci,cj,dir))
-            
 
-#k = dist.keys()
-p = prev.keys()
-for pr in p:
-    i,j,dir = pr
-    #print(i,j)
-    if i == endi and j == endj:
-        print("prev:", prev[pr])
-        print("dist:",dist[pr])
+#find path to start from
+minimum = None
+mindi,mindj = None, None
+for (di,dj) in [(1,0),(-1,0),(0,1),(0,-1)]:
+    if (endi, endj, (di,dj)) in dist.keys():
+        distance = dist[(endi,endj,(di,dj))]
+        if minimum is None or distance < minimum:
+            minimum = distance
+            mindi, mindj = di, dj
 
+revQ = [(endi,endj,(mindi,mindj))]
+s = set(revQ)
+while len(revQ) > 0:
+    node = revQ.pop(-1)
+    prev_nodes = prev[node]
+    if prev_nodes == None:
+        #at start
+        continue
+    for prev_node in prev_nodes:
+        if prev_node not in s:
+            s.add(prev_node)
+            revQ.append(prev_node)
 
-#seen = set()
-#back = prev[]
-#while back != None:
-
-#print(k)
-#for x in k:
-#    if x[0] == endi and x[1] == endj:
-#        print(dist[x])
+#print(s)
+s = {(x[0],x[1]) for x in s}
+print(len(s))
