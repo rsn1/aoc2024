@@ -1,3 +1,5 @@
+from collections import deque
+
 with open("input.txt") as f:
     grid = [list(x) for x in f.read().splitlines()]
 
@@ -11,8 +13,6 @@ for i in range(n_rows):
         if grid[i][j] == '#':
             hashes.append((i,j))
             num_hash += 1
-print(num_hash)
-            
 
 def find_tile(c):
     for i in range(n_rows):
@@ -29,15 +29,12 @@ def adj4(grid2, i,j):
 
 starti, startj = find_tile('S')
 endi, endj = find_tile('E')
-print(endi,endj)
-print(starti,startj)
-
 
 def bfs(grid2):
-    Q = [(starti,startj,0)]
-    visited = set((starti,startj,0))
+    Q = deque([(starti,startj,0)])
+    visited = set((starti,startj))
     while len(Q) != 0:
-        curi, curj, dist = Q.pop(0)
+        curi, curj, dist = Q.popleft()
         if curi == endi and curj == endj:
             return dist
         for adjacent in adj4(grid2, curi, curj):
